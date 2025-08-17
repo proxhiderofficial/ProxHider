@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unblora OS</title>
+  <link rel="shortcut icon" href="/logo/unblora-bg-lgo.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* (your same CSS here) */
+  </style>
+</head>
+<body>
+  <div class="main-pg"></div>
+
+  <div class="btm-br">
+    <div class="taskbar">
+      <img src="/logo/os/weather.png" alt="Weather" id="wtr">
+      <div class="cgp">
+        <img src="/logo/os/home.png" alt="Start" id="srt">
+        <input type="text" id="srh" placeholder="Search">
+        <img src="/logo/os/switch.png" alt="Desktop" id="swt">
+        <img src="/logo/os/explorer.png" alt="Explorer" id="explr">
+        <img src="/logo/os/edge.png" alt="Edge" id="edg">
+        <img src="/logo/os/vsc.png" alt="Vsc" id="vsc">
+        <img src="/logo/os/settings.png" alt="Settings" id="settingsBtn">
+        <img src="/logo/unblora-bg-lgo.png" alt="U0S" id="uos">
+      </div>
+    </div>
+
+    <div class="sys-icons">
+      <div class="hover-all">
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-volume-up"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+      <button id="logoutBtn" title="Logout">Logout</button>
+      <div class="clock" id="clock"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    const SESSION_KEY = "loggedInUser";
+
+    function getSession() {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      try {
+        const data = JSON.parse(raw);
+        if (data.expiresAt && Date.now() > data.expiresAt) {
+          localStorage.removeItem(SESSION_KEY);
+          return null;
+        }
+        return data;
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+    }
+
+    // Check session
+    const session = getSession();
+    if (!session) {
+      window.location.href = "nope.html";
+    }
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem(SESSION_KEY);
+      window.location.href = "index.html";
+    });
+
+    // Clock
+    function updateClock() {
+      const clock = document.getElementById("clock");
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const date = now.toLocaleDateString();
+      clock.innerHTML = `${time}<br>${date}`;
+    }
+    updateClock();
+    setInterval(updateClock, 60000);
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unblora OS</title>
+  <link rel="shortcut icon" href="/logo/unblora-bg-lgo.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* (your same CSS here) */
+  </style>
+</head>
+<body>
+  <div class="main-pg"></div>
+
+  <div class="btm-br">
+    <div class="taskbar">
+      <img src="/logo/os/weather.png" alt="Weather" id="wtr">
+      <div class="cgp">
+        <img src="/logo/os/home.png" alt="Start" id="srt">
+        <input type="text" id="srh" placeholder="Search">
+        <img src="/logo/os/switch.png" alt="Desktop" id="swt">
+        <img src="/logo/os/explorer.png" alt="Explorer" id="explr">
+        <img src="/logo/os/edge.png" alt="Edge" id="edg">
+        <img src="/logo/os/vsc.png" alt="Vsc" id="vsc">
+        <img src="/logo/os/settings.png" alt="Settings" id="settingsBtn">
+        <img src="/logo/unblora-bg-lgo.png" alt="U0S" id="uos">
+      </div>
+    </div>
+
+    <div class="sys-icons">
+      <div class="hover-all">
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-volume-up"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+      <button id="logoutBtn" title="Logout">Logout</button>
+      <div class="clock" id="clock"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    const SESSION_KEY = "loggedInUser";
+
+    function getSession() {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      try {
+        const data = JSON.parse(raw);
+        if (data.expiresAt && Date.now() > data.expiresAt) {
+          localStorage.removeItem(SESSION_KEY);
+          return null;
+        }
+        return data;
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+    }
+
+    // Check session
+    const session = getSession();
+    if (!session) {
+      window.location.href = "nope.html";
+    }
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem(SESSION_KEY);
+      window.location.href = "index.html";
+    });
+
+    // Clock
+    function updateClock() {
+      const clock = document.getElementById("clock");
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const date = now.toLocaleDateString();
+      clock.innerHTML = `${time}<br>${date}`;
+    }
+    updateClock();
+    setInterval(updateClock, 60000);
+  </script>
+</body>
+</html>
