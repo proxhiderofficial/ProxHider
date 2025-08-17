@@ -1,47 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Unblora OS</title>
-  <link rel="shortcut icon" href="/logo/unblora-bg-lgo.png" type="image/x-icon">
+  <title>Unblora OS — Desktop</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* (your same CSS here) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      overflow: hidden;
+      font-family: sans-serif;
+      background: #eef6ff;
+    }
+    .main-pg {
+      background-image: url(/logo/os/main.jpg);
+      height: calc(100vh - 50px);
+      width: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .btm-br {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: #a6d8f3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .taskbar {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .cgp {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .btm-br img {
+      height: 32px;
+      width: 32px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 4px;
+      border-radius: 4px;
+      object-fit: contain;
+    }
+    .btm-br img:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+    #explr {
+      margin: 0 6px; 
+    }
+    #srh {
+      padding: 5px 10px;
+      border-radius: 15px;
+      border: none;
+      outline: none;
+      width: 220px;
+      font-size: 14px;
+      background-color: #ffffff;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+      height: 30px;
+    }
+    @media (max-width: 600px) {
+      #srh {
+        display: none;
+      }
+    }
+    #srt {
+      margin-left: 250px;
+    }
+    .btm-br img#uos {
+      height: 30px;
+      width: auto;
+      padding: 1px;
+      border-radius: 3px;
+    }
+    .sys-icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .clock {
+      text-align: right;
+      font-size: 12px;
+      color: #000;
+      line-height: 1.2;
+      white-space: nowrap;
+      padding: 6px 8px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+    .clock:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    .sys-icons img {
+      height: 24px;
+      cursor: default;
+    }
+    #logoutBtn {
+      background-color: #7FBFF1;
+      border: none;
+      color: #000;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+    #logoutBtn:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    .hover-all {
+      border: none;
+      color: #000;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+    .hover-all:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
 <body>
   <div class="main-pg"></div>
 
+  <!-- Taskbar -->
   <div class="btm-br">
     <div class="taskbar">
-      <img src="/logo/os/weather.png" alt="Weather" id="wtr">
-      <div class="cgp">
-        <img src="/logo/os/home.png" alt="Start" id="srt">
-        <input type="text" id="srh" placeholder="Search">
-        <img src="/logo/os/switch.png" alt="Desktop" id="swt">
-        <img src="/logo/os/explorer.png" alt="Explorer" id="explr">
-        <img src="/logo/os/edge.png" alt="Edge" id="edg">
-        <img src="/logo/os/vsc.png" alt="Vsc" id="vsc">
-        <img src="/logo/os/settings.png" alt="Settings" id="settingsBtn">
-        <img src="/logo/unblora-bg-lgo.png" alt="U0S" id="uos">
-      </div>
+      <img src="/logo/os/unblora.png" id="uos" alt="UnbloraOS">
+      <input type="text" id="srh" placeholder="Search...">
+      <img src="/logo/os/explorer.png" id="explr" alt="Explorer">
+      <img src="/logo/os/settings.png" alt="Settings">
     </div>
-
-    <div class="sys-icons">
-      <div class="hover-all">
-        <i class="fas fa-wifi"></i>
-        <i class="fas fa-volume-up"></i>
-        <i class="fas fa-battery-full"></i>
+    <div class="cgp">
+      <div class="sys-icons">
+        <span class="clock" id="clock"></span>
+        <img src="/logo/os/wifi.png" alt="WiFi">
+        <img src="/logo/os/volume.png" alt="Volume">
       </div>
-      <button id="logoutBtn" title="Logout">Logout</button>
-      <div class="clock" id="clock"></div>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
   <script type="module">
     const SESSION_KEY = "loggedInUser";
 
+    // Check session
     function getSession() {
       const raw = localStorage.getItem(SESSION_KEY);
       if (!raw) return null;
@@ -58,96 +182,12 @@
       }
     }
 
-    // Check session
-    const session = getSession();
-    if (!session) {
-      window.location.href = "nope.html";
-    }
-
-    // Logout
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem(SESSION_KEY);
-      window.location.href = "index.html";
-    });
-
-    // Clock
-    function updateClock() {
-      const clock = document.getElementById("clock");
-      const now = new Date();
-      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const date = now.toLocaleDateString();
-      clock.innerHTML = `${time}<br>${date}`;
-    }
-    updateClock();
-    setInterval(updateClock, 60000);
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Unblora OS</title>
-  <link rel="shortcut icon" href="/logo/unblora-bg-lgo.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* (your same CSS here) */
-  </style>
-</head>
-<body>
-  <div class="main-pg"></div>
-
-  <div class="btm-br">
-    <div class="taskbar">
-      <img src="/logo/os/weather.png" alt="Weather" id="wtr">
-      <div class="cgp">
-        <img src="/logo/os/home.png" alt="Start" id="srt">
-        <input type="text" id="srh" placeholder="Search">
-        <img src="/logo/os/switch.png" alt="Desktop" id="swt">
-        <img src="/logo/os/explorer.png" alt="Explorer" id="explr">
-        <img src="/logo/os/edge.png" alt="Edge" id="edg">
-        <img src="/logo/os/vsc.png" alt="Vsc" id="vsc">
-        <img src="/logo/os/settings.png" alt="Settings" id="settingsBtn">
-        <img src="/logo/unblora-bg-lgo.png" alt="U0S" id="uos">
-      </div>
-    </div>
-
-    <div class="sys-icons">
-      <div class="hover-all">
-        <i class="fas fa-wifi"></i>
-        <i class="fas fa-volume-up"></i>
-        <i class="fas fa-battery-full"></i>
-      </div>
-      <button id="logoutBtn" title="Logout">Logout</button>
-      <div class="clock" id="clock"></div>
-    </div>
-  </div>
-
-  <script type="module">
-    const SESSION_KEY = "loggedInUser";
-
-    function getSession() {
-      const raw = localStorage.getItem(SESSION_KEY);
-      if (!raw) return null;
-      try {
-        const data = JSON.parse(raw);
-        if (data.expiresAt && Date.now() > data.expiresAt) {
-          localStorage.removeItem(SESSION_KEY);
-          return null;
-        }
-        return data;
-      } catch {
-        localStorage.removeItem(SESSION_KEY);
-        return null;
+    (async () => {
+      const user = getSession();
+      if (!user) {
+        return window.location.href = "nope.html";
       }
-    }
-
-    // Check session
-    const session = getSession();
-    if (!session) {
-      window.location.href = "nope.html";
-    }
+    })();
 
     // Logout
     document.getElementById("logoutBtn").addEventListener("click", () => {
