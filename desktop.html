@@ -43,16 +43,31 @@
       backdrop-filter: blur(6px);
       z-index: 100;
     }
+
+    /* Centering trick for taskbar icons */
+    .taskbar-wrapper {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 100%;
+    }
+
     .taskbar {
       display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .cgp {
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-left: auto;
     }
+
     .btm-br img {
       height: 26px;
       width: 26px;
@@ -124,11 +139,13 @@
 
   <!-- Taskbar -->
   <div class="btm-br">
-    <div class="taskbar">
-      <img src="/logo/os/unblora.png" id="uos" alt="ProxHiderOS">
-      <input type="text" id="srh" placeholder="Search...">
-      <img src="/logo/os/explorer.png" id="explr" alt="Explorer">
-      <img src="/logo/os/settings.png" alt="Settings">
+    <div class="taskbar-wrapper">
+      <div class="taskbar">
+        <img src="/logo/os/unblora.png" id="uos" alt="ProxHiderOS">
+        <input type="text" id="srh" placeholder="Search...">
+        <img src="/logo/os/explorer.png" id="explr" alt="Explorer">
+        <img src="/logo/os/settings.png" alt="Settings">
+      </div>
     </div>
     <div class="cgp">
       <div class="sys-icons">
