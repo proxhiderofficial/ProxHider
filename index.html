@@ -37,7 +37,7 @@
 
     const USERS = [
       { username: "proxhider", password: "proxhider123", role: "admin" },
-      { username: "guest", password: "guest", role: "viewer" }
+      { username: "guest", password: "guest", role: "guest" }
     ];
 
     function createSession(user) {
@@ -62,7 +62,13 @@
       }
 
       createSession(match);
-      window.location.href = "desktop.html"; // go to OS
+
+      // Redirect based on role
+      if (match.role === "guest") {
+        window.location.href = "desktop-guest.html";
+      } else {
+        window.location.href = "desktop.html";
+      }
     });
   </script>
 </body>
