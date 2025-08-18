@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ProxHider OS — Desktop (Guest)</title>
+  <link rel="icon" type="image/x-icon" href="proxhider-logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+    body { overflow: hidden; font-family: "Segoe UI", Tahoma, sans-serif; background: #000; }
+
+    .main-pg {
+      background-image: url("Windows-11-default-wallpaper.jpg");
+      height: calc(100vh - 52px);
+      width: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* Taskbar */
+    .btm-br {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 52px;
+      background: rgba(32, 32, 32, 0.85);
+      display: flex;
+      justify-content: center; /* only center icons */
+      align-items: center;
+      padding: 0 12px;
+      box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+    }
+
+    .taskbar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btm-br img {
+      height: 34px;
+      width: 34px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      object-fit: contain;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+    .btm-br img:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="main-pg"></div>
+
+  <!-- Guest Taskbar -->
+  <div class="btm-br">
+    <div class="taskbar">
+      <!-- ProxHider logo acts as Start -->
+      <img src="proxhider-logo.png" id="startBtn" alt="Start">
+      <!-- Only Google available -->
+      <img src="google.png" id="explr" alt="Google">
+    </div>
+  </div>
+
+  <script type="module">
+    const SESSION_KEY = "loggedInUser";
+
+    function getSession() {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      try {
+        const data = JSON.parse(raw);
+        if (data.expiresAt && Date.now() > data.expiresAt) {
+          localStorage.removeItem(SESSION_KEY);
+          return null;
+        }
+        return data;
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+    }
+
+    (async () => {
+      const user = getSession();
+      if (!user) {
+        return window.location.href = "nope.html";
+      }
+
+      // If guest, stay here
+      if (user.role !== "guest") {
+        // Redirect normal users to the full desktop
+        return window.location.href = "desktop.html";
+      }
+    })();
+  </script>
+</body>
+</html>
