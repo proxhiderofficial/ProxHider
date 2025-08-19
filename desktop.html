@@ -207,6 +207,23 @@
       border-bottom: 1px solid #444;
       font-size: 18px;
       font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .settings-close {
+      background: #c42b1c;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .settings-close:hover {
+      background: #e81123;
     }
     .settings-content {
       flex: 1;
@@ -237,6 +254,7 @@
       background: #2a2a2a;
       border-radius: 8px;
       padding: 16px;
+      overflow-y: auto;
     }
   </style>
 </head>
@@ -250,7 +268,7 @@
         <img src="proxhider-logo.png" id="startBtn" alt="Start">
         <input type="text" id="srh" placeholder="Type here to search">
         <img src="google.png" id="explr" alt="Google">
-        <img src="settings.png" alt="Settings">
+        <img src="settings.png" id="settingsTaskbar" alt="Settings">
       </div>
     </div>
     <div class="cgp">
@@ -277,15 +295,18 @@
 
   <!-- Settings Window -->
   <div class="settings-window" id="settingsWindow">
-    <div class="settings-header">⚙️ Settings</div>
+    <div class="settings-header">
+      ⚙️ Settings
+      <button class="settings-close" id="closeSettingsBtn">X</button>
+    </div>
     <div class="settings-content">
       <div class="settings-sidebar">
-        <button>System</button>
-        <button>Network</button>
-        <button>Personalization</button>
-        <button>Accounts</button>
+        <button data-section="system">System</button>
+        <button data-section="network">Network</button>
+        <button data-section="personalization">Personalization</button>
+        <button data-section="accounts">Accounts</button>
       </div>
-      <div class="settings-main">
+      <div class="settings-main" id="settingsMain">
         <h3>Welcome to Settings</h3>
         <p>Select a category on the left to view options.</p>
       </div>
@@ -331,13 +352,10 @@
     // Toggle Start Menu
     const startBtn = document.getElementById("startBtn");
     const startMenu = document.getElementById("startMenu");
-
     startBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       startMenu.classList.toggle("show");
     });
-
-    // Close Start Menu when clicking outside
     document.addEventListener("click", (e) => {
       if (startMenu.classList.contains("show") &&
           !startMenu.contains(e.target) &&
@@ -346,13 +364,41 @@
       }
     });
 
-    // Open Settings Window
+    // Settings window logic
     const openSettingsBtn = document.getElementById("openSettingsBtn");
     const settingsWindow = document.getElementById("settingsWindow");
+    const closeSettingsBtn = document.getElementById("closeSettingsBtn");
+    const settingsTaskbar = document.getElementById("settingsTaskbar");
+    const settingsMain = document.getElementById("settingsMain");
+
+    const sections = {
+      system: "<h3>System</h3><p>View display, notifications, and power settings.</p>",
+      network: "<h3>Network</h3><p>Configure WiFi, Ethernet, and VPN connections.</p>",
+      personalization: "<h3>Personalization</h3><p>Change wallpaper, themes, and colors.</p>",
+      accounts: "<h3>Accounts</h3><p>Manage user accounts and sign-in options.</p>"
+    };
 
     openSettingsBtn.addEventListener("click", () => {
       startMenu.classList.remove("show");
       settingsWindow.classList.add("show");
+    });
+    settingsTaskbar.addEventListener("click", () => {
+      settingsWindow.classList.add("show");
+    });
+    closeSettingsBtn.addEventListener("click", () => {
+      settingsWindow.classList.remove("show");
+    });
+
+    document.querySelectorAll(".settings-sidebar button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const section = btn.getAttribute("data-section");
+        settingsMain.innerHTML = sections[section] || "<h3>Settings</h3><p>No content.</p>";
+      });
+    });
+
+    // Taskbar icon functionality
+    document.getElementById("explr").addEventListener("click", () => {
+      window.open("https://www.google.com", "_blank");
     });
 
     // Clock
