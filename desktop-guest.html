@@ -124,6 +124,62 @@
     #logoutBtn:hover {
       background-color: rgba(255, 255, 255, 0.15);
     }
+
+    /* Start Menu */
+    .start-menu {
+      position: fixed;
+      bottom: 52px;
+      left: 10px;
+      width: 280px;
+      height: 360px;
+      background: rgba(25, 25, 25, 0.95);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.6);
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: all 0.25s ease;
+    }
+    .start-menu.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .start-header {
+      text-align: center;
+      padding: 20px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .start-header img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+
+    .start-header h2 {
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .start-menu button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      padding: 12px 20px;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .start-menu button:hover {
+      background: rgba(255,255,255,0.15);
+    }
   </style>
 </head>
 <body>
@@ -149,6 +205,17 @@
       </div>
       <button id="logoutBtn">Logout</button>
     </div>
+  </div>
+
+  <!-- Start Menu -->
+  <div class="start-menu" id="startMenu">
+    <div class="start-header">
+      <img src="proxhider-logo.png" alt="Logo">
+      <h2>ProxHider OS</h2>
+    </div>
+    <button onclick="window.open('https://www.google.com','_blank')">🌐 Google</button>
+    <button onclick="alert('ProxHider OS — Guest Mode')">ℹ️ About OS</button>
+    <button id="logoutStartBtn">🚪 Logout</button>
   </div>
 
   <script type="module">
@@ -182,10 +249,34 @@
       }
     })();
 
-    // Logout
+    // Logout (taskbar button)
     document.getElementById("logoutBtn").addEventListener("click", () => {
       localStorage.removeItem(SESSION_KEY);
       window.location.href = "index.html";
+    });
+
+    // Logout (Start menu button)
+    document.getElementById("logoutStartBtn").addEventListener("click", () => {
+      localStorage.removeItem(SESSION_KEY);
+      window.location.href = "index.html";
+    });
+
+    // Toggle Start Menu
+    const startBtn = document.getElementById("startBtn");
+    const startMenu = document.getElementById("startMenu");
+
+    startBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      startMenu.classList.toggle("show");
+    });
+
+    // Close Start Menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (startMenu.classList.contains("show") &&
+          !startMenu.contains(e.target) &&
+          e.target !== startBtn) {
+        startMenu.classList.remove("show");
+      }
     });
 
     // Clock
