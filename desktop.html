@@ -89,6 +89,32 @@
       #srh { display: none; }
     }
 
+    /* Search Suggestions */
+    .search-suggestions {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      width: 220px;
+      display: none;
+      flex-direction: column;
+      z-index: 150;
+    }
+    .search-suggestions button {
+      padding: 8px 12px;
+      border: none;
+      background: none;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .search-suggestions button:hover {
+      background: #f0f0f0;
+    }
+
     .sys-icons {
       display: flex;
       align-items: center;
@@ -267,6 +293,7 @@
       <div class="taskbar">
         <img src="proxhider-logo.png" id="startBtn" alt="Start">
         <input type="text" id="srh" placeholder="Type here to search">
+        <div class="search-suggestions" id="searchSuggestions"></div>
         <img src="google.png" id="explr" alt="Google">
         <img src="settings.png" id="settingsTaskbar" alt="Settings">
       </div>
@@ -339,7 +366,7 @@
       }
     })();
 
-    // Logout (taskbar + Start menu)
+    // Logout
     document.getElementById("logoutBtn").addEventListener("click", () => {
       localStorage.removeItem(SESSION_KEY);
       window.location.href = "index.html";
@@ -349,7 +376,7 @@
       window.location.href = "index.html";
     });
 
-    // Toggle Start Menu
+    // Start Menu toggle
     const startBtn = document.getElementById("startBtn");
     const startMenu = document.getElementById("startMenu");
     startBtn.addEventListener("click", (e) => {
@@ -364,7 +391,7 @@
       }
     });
 
-    // Settings window logic
+    // Settings window
     const openSettingsBtn = document.getElementById("openSettingsBtn");
     const settingsWindow = document.getElementById("settingsWindow");
     const closeSettingsBtn = document.getElementById("closeSettingsBtn");
@@ -396,9 +423,56 @@
       });
     });
 
-    // Taskbar icon functionality
+    // Taskbar Google icon
     document.getElementById("explr").addEventListener("click", () => {
       window.open("https://www.google.com", "_blank");
+    });
+
+    // Search bar with autosuggest
+    const searchInput = document.getElementById("srh");
+    const searchSuggestions = document.getElementById("searchSuggestions");
+
+    const apps = [
+      { name: "Google", action: () => window.open("https://www.google.com", "_blank") },
+      { name: "Settings", action: () => settingsWindow.classList.add("show") },
+      { name: "About OS", action: () => alert("ProxHider OS — Full Desktop Mode") }
+    ];
+
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      searchSuggestions.innerHTML = "";
+      if (!query) {
+        searchSuggestions.style.display = "none";
+        return;
+      }
+      const matches = apps.filter(app => app.name.toLowerCase().includes(query));
+      if (matches.length === 0) {
+        searchSuggestions.style.display = "none";
+        return;
+      }
+      matches.forEach(app => {
+        const btn = document.createElement("button");
+        btn.textContent = app.name;
+        btn.addEventListener("click", () => {
+          app.action();
+          searchSuggestions.style.display = "none";
+          searchInput.value = "";
+        });
+        searchSuggestions.appendChild(btn);
+      });
+      searchSuggestions.style.display = "flex";
+    });
+
+    // Press Enter → Google search
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const query = searchInput.value.trim();
+        if (query) {
+          window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
+          searchInput.value = "";
+          searchSuggestions.style.display = "none";
+        }
+      }
     });
 
     // Clock
